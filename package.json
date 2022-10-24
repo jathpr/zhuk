@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "zhuk",
-  "keywords": [
-    "gatsby"
-  ],
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
