@@ -5,12 +5,12 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 const storage = getStorage();
 // Create a reference to 'images/mountains.jpg'
-const storageRef = ref(storage, "Ann");
 
 const ImagePage = () => {
   const auth = getAuth(app);
 
   const [user, setUser] = useState<string>();
+  const [name, setName] = useState<string>("");
   useEffect(() => {
     const unlisten = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -56,16 +56,22 @@ const ImagePage = () => {
     console.log(e.target.files[0]);
   };
 
-  const handleUpload = () =>
+  const handleUpload = () => {
     selectedFile &&
-    uploadBytes(storageRef, selectedFile).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
-    });
+      name.length &&
+      uploadBytes(ref(storage, `works/${name}`), selectedFile).then(
+        (snapshot) => {
+          console.log("Uploaded a blob or file!");
+        }
+      );
+  };
 
   return (
     <>
       {user ? "hello, user " + user : "Please login"}
       <input type="file" onChange={onSelectFile} />
+      Type a name of photo
+      <input value={name} onChange={(e) => setName(e.target.value)} />
       {selectedFile && <img src={preview} width="500" />}
       <button onClick={handleUpload}>Upload Ann</button>
     </>
