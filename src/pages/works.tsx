@@ -1,8 +1,12 @@
+import styled from "@emotion/styled";
 import { getAuth } from "firebase/auth";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { app } from "../firebase";
+import { Footer } from "../components/footer";
+import { Header } from "../components/header";
+
 
 export const Works = () => {
   const [works, setWorks] = useState<string[]>([]);
@@ -38,12 +42,29 @@ export const Works = () => {
 
   return (
     <>
-      Zhuk Works
-      {works.map((url) => (
-        <img src={url} key={url} width={300} />
-      ))}
+      <Header />
+      <WorksGrid>
+        {works.map((url) => (
+          <Photo src={url} key={url}  />
+          ))}
+      </WorksGrid>
+          <Footer />
     </>
   );
 };
+
+const WorksGrid = styled.div`
+  display: grid;
+  height: 70vh;
+  overflow: scroll;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 30vw);
+  grid-gap: 15px;
+}`
+
+const Photo = styled.img`
+width: 100%;
+height: 100%;
+object-fit: cover;`
 
 export default Works;
