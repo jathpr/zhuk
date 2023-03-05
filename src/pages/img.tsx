@@ -92,7 +92,12 @@ const ImagePage = () => {
   );
 };
 
-const WorkDescription = styled.div``
+const WorkDescription = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+`
 
 const AddWorkButton = styled.button`
 cursor: pointer;

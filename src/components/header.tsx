@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { ClearLink } from "./footer";
 import text from "../text.json";
+import { Link } from "gatsby";
 
 const Logo = () => <Name>{text.logo}</Name>
 
@@ -11,6 +11,11 @@ const Name = styled.span`
   line-height: 1.2;
   font-size: 7rem;
 `;
+
+const ClearLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+`
 
 export const Header = () => <div><ClearLink to="/"><Logo/></ClearLink></div>
 

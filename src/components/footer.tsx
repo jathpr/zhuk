@@ -36,7 +36,7 @@ const Menu = styled.nav`
   flex-direction: row;
 `;
 
-export const ClearLink = styled(Link)`
+const ClearLink = styled(Link)`
   text-decoration: none;
 `
 
