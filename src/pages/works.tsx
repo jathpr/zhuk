@@ -102,9 +102,14 @@ const WorksGrid = styled.div`
   display: grid;
   height: 74vh;
   overflow: scroll;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 30vw);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 36vh);
   grid-gap: 15px;
+  
+  @media (min-width: 600px) {
+    grid-template-rows: repeat(2, 30vw);
+    grid-template-columns: repeat(3, 1fr);
+  }
 }`
 
 const WorkAuth = styled.div`
