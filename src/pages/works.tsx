@@ -1,97 +1,48 @@
 import styled from "@emotion/styled";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getStorage, ref, listAll, getDownloadURL, deleteObject } from "firebase/storage";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { app } from "../firebase";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
+import { useIsAuth } from "../hooks/useIsAuth";
+import { deleteWork, getWorks } from "../server/works";
 
 type Props = {
-  user?: string | null,
+  isAuth: boolean,
   url: string,
   name: string,
-  deleteWork: (name: string) => void
+  onDel: () => void
 }
-const Work = ({ user, url, name, deleteWork }: Props) => {
-  console.log("🚀 ~ file: works.tsx:20 ~ Work ~ url:", url)
-  if (!user) return <Photo src={url} key={url} alt={name} />
+const Work = ({ isAuth, url, name, onDel }: Props) => {
+  if (!isAuth) return <Photo src={url} key={url} alt={name} />
   return <WorkAuth>
     <Photo src={url} key={url} alt={name} />
     <RemoveButton onClick={() => {
       const answer = confirm("Это Удаліт Фото навсегда!")
-      // Create a reference to the file to delete
-      answer && deleteWork(name)
+      if (answer) {
+        deleteWork(name)
+        onDel()
+      }
     }}>X</RemoveButton>
     <Text>{name}</Text>
   </WorkAuth>
 }
 
 export const Works = () => {
-  const auth = getAuth(app);
-  const [user, setUser] = useState<string | null>();
-  useEffect(() => {
-    const unlisten = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user.email);
-      } else {
-        setUser(undefined);
-      }
-    });
-    return () => {
-      unlisten();
-    };
-  }, []);
+  const isAuth = useIsAuth()
 
   const [works, setWorks] = useState<{ url: string, name: string }[]>([]);
-  const storage = getStorage();
-  getAuth(app);
-  // Create a reference under which you want to list
-  const listRef = ref(storage, "works");
 
-  const deleteWork = (name: string) => {
-    setWorks([])
-    const desertRef = ref(storage, `works/${name}`);
-
-    // Delete the file
-    deleteObject(desertRef).then(() => {
-      // File deleted successfully
-    }).catch((error) => {
-      // Uh-oh, an error occurred!
-    });
-    getWorks()
-  }
-
-  const getWorks = () => {
-     // Find all the prefixes and items.
-     listAll(listRef)
-     .then((res) => {
-       res.items.forEach((itemRef) => {
-         const name = itemRef.name
-         getDownloadURL(ref(storage, itemRef.fullPath))
-           .then((url) => {
-             setWorks((prev) => [...prev, { url, name }]);
-           })
-           .catch((error) => {
-             // Handle any errors
-           });
-         // All the items under listRef.
-       });
-     })
-     .catch((error) => {
-       // Uh-oh, an error occurred!
-     });
-  }
+  const updateWorks = async () => setWorks(await getWorks())
 
   useEffect(() => {
-    getWorks()
+    updateWorks()
   }, []);
 
   return (
     <>
-      <Header />
+      <Header path="/img" />
       <WorksGrid>
-        {works.map((work) => <Work url={work.url} user={user} name={work.name} deleteWork={deleteWork} />)}
+        {works.map((work) => <Work url={work.url} isAuth={isAuth} name={work.name} onDel={updateWorks} />)}
       </WorksGrid>
       <Footer />
     </>

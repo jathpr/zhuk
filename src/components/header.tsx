@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import React from "react";
 import text from "../text.json";
 import { Link } from "gatsby";
+import { useIsAuth } from "../hooks/useIsAuth";
 
 const Logo = () => <Name>{text.logo}</Name>
 
@@ -21,5 +22,13 @@ const ClearLink = styled(Link)`
   text-decoration: none;
 `
 
-export const Header = () => <div><ClearLink to="/"><Logo/></ClearLink></div>
+export const Header = ({ path }: { path?: string }) => {
+  const isAuth = useIsAuth()
+  return <div>
+    <ClearLink to="/">
+      <Logo />
+    </ClearLink>
+    {isAuth && path && <Link to={path} >Add works</Link>}
+  </div>;
+}
 

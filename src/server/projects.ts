@@ -1,0 +1,1 @@
+// getProjects = (setProjects) => { setProjects((prev) => [...prev, nextProject])}

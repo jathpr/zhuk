@@ -65,7 +65,9 @@ const ImagePage = () => {
       name.length &&
       uploadBytes(ref(storage, `works/${name}`), selectedFile).then(
         (snapshot) => {
-          console.log("Uploaded a blob or file!");
+          setName("")
+          setPreview(undefined)
+          setSelectedFile(undefined)
         }
       );
   };
