@@ -1,36 +1,11 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { app } from "../firebase";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { navigate } from "gatsby";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import styled from "@emotion/styled";
-import { SyntheticEvent } from "react";
-
-const storage = getStorage();
-// Create a reference to 'images/mountains.jpg'
+import { uploadWork } from "../server/works";
 
 const ImagePage = () => {
-  const auth = getAuth(app);
-
-  const [user, setUser] = useState<string | null>();
   const [name, setName] = useState<string>("");
-  useEffect(() => {
-    const unlisten = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.email;
-        setUser(uid);
-      } else {
-        setUser(undefined);
-        navigate("/")
-      }
-    });
-    return () => {
-      unlisten();
-    };
-  }, []);
-
   const [selectedFile, setSelectedFile] = useState<File>();
   const [preview, setPreview] = useState<string>();
 
@@ -48,7 +23,7 @@ const ImagePage = () => {
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
-  const onSelectFile = (e) => {
+  const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
       return;
@@ -58,25 +33,24 @@ const ImagePage = () => {
     setSelectedFile(e.target.files[0]);
   };
 
-  const handleUpload = () => {
-    console.log("pressed");
-    
-    selectedFile &&
-      name.length &&
-      uploadBytes(ref(storage, `works/${name}`), selectedFile).then(
-        (snapshot) => {
-          setName("")
-          setPreview(undefined)
-          setSelectedFile(undefined)
-        }
-      );
+  const handleUpload = async () => {
+    if (!selectedFile) return alert("Сначала надо выбрать фото")
+    if (!name.length) return alert("Сначала надо ввести название")
+
+    try {
+      await uploadWork({ file: selectedFile, name })
+      setName("")
+      setPreview(undefined)
+      setSelectedFile(undefined)
+    } catch (error) {
+      alert("Загрузка не удалась =(, что говорит по этому поводу сервер появится в следующем окне")
+      alert(error)
+    }
   };
 
   return (
     <>
       <Header />
-      {user ? "hello, user " + user : "Please login"}
-      {user && <button onClick={() => signOut(auth)}>SignOut</button>}
       <AddWorkButton as="label" htmlFor="addWork">
         Select Image
         <HidedInput id="addWork" type="file" accept="image/png, image/gif, image/jpeg" onChange={onSelectFile} />
@@ -88,7 +62,7 @@ const ImagePage = () => {
         <UploadButton onClick={handleUpload} disabled={!name}>Upload</UploadButton>
       </WorkDescription>}
 
-     
+
       <Footer />
     </>
   );

@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { getStorage, listAll, getDownloadURL, deleteObject, ref } from "firebase/storage";
+import { getStorage, listAll, getDownloadURL, deleteObject, ref, uploadBytes } from "firebase/storage";
 import { app } from "../firebase";
 
 const storage = getStorage();
@@ -26,7 +26,12 @@ export const getWorks = async () => {
 export const deleteWork = async (name: string) => {
   const desertRef = ref(storage, `works/${name}`);
   try {
-    await  deleteObject(desertRef)
+    await deleteObject(desertRef)
   } catch (error) {
-  } 
+  }
 }
+
+export const uploadWork = async ({ file, name }) => {
+  const snapshot = await uploadBytes(ref(storage, `works/${name}`), file)
+  return snapshot
+};

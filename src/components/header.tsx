@@ -3,6 +3,7 @@ import React from "react";
 import text from "../text.json";
 import { Link } from "gatsby";
 import { useIsAuth } from "../hooks/useIsAuth";
+import { signOut } from "../server/auth";
 
 const Logo = () => <Name>{text.logo}</Name>
 
@@ -29,6 +30,7 @@ export const Header = ({ path }: { path?: string }) => {
       <Logo />
     </ClearLink>
     {isAuth && path && <Link to={path} >Add works</Link>}
+    {isAuth && <button onClick={signOut}>SignOut</button>}
   </div>;
 }
 
