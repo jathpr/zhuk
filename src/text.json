@@ -4,5 +4,8 @@
         "works": "Works",
         "projects": "Projects",
         "about": "About"
+    },
+    "projects": {
+        "label": "Art and personal projects"
     }
 }

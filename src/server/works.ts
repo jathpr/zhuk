@@ -31,7 +31,12 @@ export const deleteWork = async (name: string) => {
   }
 }
 
-export const uploadWork = async ({ file, name }) => {
+type PropsFile = {
+  file: File,
+  name: string 
+}
+
+export const uploadWork = async ({ file, name }: PropsFile) => {
   const snapshot = await uploadBytes(ref(storage, `works/${name}`), file)
   return snapshot
 };
