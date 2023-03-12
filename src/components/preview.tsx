@@ -5,10 +5,12 @@ export const Preview = ({
   name,
   getPreview,
   trigger,
+  width,
 }: {
   name?: string;
   getPreview: (name: string) => Promise<any>;
   trigger: number;
+  width?: string;
 }) => {
   const [url, setUrl] = useState<string>();
   useEffect(() => {
@@ -17,12 +19,13 @@ export const Preview = ({
 
   return (
     <>
-      {url && "  обложка:"}
-      {url && <Image src={url} alt={`preview of ${name}`} />}
+      {/* {url && "  обложка:"} */}
+      {url && <Image src={url} alt={`preview of ${name}`} width={width} />}
     </>
   );
 };
 
-const Image = styled.img`
-  width: 100px;
+const Image = styled.img<{ width?: string }>`
+  float: left;
+  width: ${({ width }) => width || "100px"};
 `;

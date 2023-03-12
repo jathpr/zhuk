@@ -11,7 +11,7 @@ type Props = {
   name?: string;
   addText: string;
   uploadFile: (props: PropsFile) => void;
-  onUpload: () => void;
+  onUpload?: () => void;
 };
 
 const FileUpload = ({
@@ -31,7 +31,7 @@ const FileUpload = ({
     try {
       //add upload status
       await uploadFile({ file: selectedFile, name });
-      onUpload();
+      onUpload && onUpload();
       setName("");
       onFileSelect();
     } catch (error) {

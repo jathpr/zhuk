@@ -19,7 +19,7 @@ const Work = ({ isAuth, url, name, onDel }: Props) => {
       <Photo src={url} key={url} alt={name} />
       <RemoveButton
         onClick={async () => {
-          const answer = confirm("Это Удаліт Фото навсегда!");
+          const answer = window.confirm("Это Удаліт Фото навсегда!");
           if (answer) {
             await deleteWork(name);
             onDel();
@@ -69,12 +69,12 @@ const WorksGrid = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 36vh);
   grid-gap: 15px;
-  
+
   @media (min-width: 600px) {
     grid-template-rows: repeat(2, 30vw);
     grid-template-columns: repeat(3, 1fr);
   }
-}`;
+`;
 
 const WorkAuth = styled.div`
   position: relative;
