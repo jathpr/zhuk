@@ -30,7 +30,7 @@ export const uploadProject = async ({ file, name }: PropsFile) => {
   return snapshot;
 };
 
-export const getPreview = async (name: string) => {
+export const getProjectImg = async (name: string) => {
   try {
     return await getDownloadURL(ref(storage, `${PATH}/${name}`));
   } catch (error) {
@@ -43,18 +43,18 @@ type Data = {
   body: [{ key: string; value: string }];
 };
 
-export const sendData = async ({ body, name }: Data) => {
+export const sendProjectData = async ({ body, name }: Data) => {
   const sendBody: any = {};
   body.forEach(({ key, value }) => (sendBody[key] = value));
   console.log("🚀 ~ file: projects.ts:52 ~ sendData ~ sendBody:", sendBody);
   set(dbRef(db, `${PATH}/${name}`), sendBody);
 };
 
-export const readData = async (path: string) => {
+export const readProjectData = async (path?: string) => {
+  const nextPath = path ? `${PATH}/${path}` : PATH;
   const db = dbRef(getDatabase());
   try {
-    const snapshot = await get(child(db, `${PATH}/${path}`));
-    console.log("🚀 ~ file: projects.ts:62 ~ readData ~ snapshot:", snapshot);
+    const snapshot = await get(child(db, nextPath));
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
@@ -87,3 +87,6 @@ export const getProjectFiles = async (name: string) => {
     return [];
   }
 };
+
+export type ProjectType = { description: string };
+export type ProjectsType = { [name: string]: ProjectType };

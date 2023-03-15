@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { readData, sendData } from "../server/projects";
+import { readProjectData, sendProjectData } from "../server/projects";
 
 type Props = {
   name: string;
@@ -11,16 +11,16 @@ export const UpdateProjectField = ({ name, field }: Props) => {
 
   const handleDescriptionChange = async (e: ChangeEvent<HTMLInputElement>) => {
     name &&
-      (await sendData({
+      (await sendProjectData({
         name,
         body: [{ key: field, value: e.target.value }],
       }));
-    const data = await readData(name + "/" + field);
+    const data = await readProjectData(name + "/" + field);
     setDescription(data);
   };
 
   useEffect(() => {
-    readData(name + "/" + field).then(setDescription);
+    readProjectData(name + "/" + field).then(setDescription);
   }, [name, field]);
 
   return <input value={description} onChange={handleDescriptionChange} />;

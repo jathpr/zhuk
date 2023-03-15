@@ -5,7 +5,11 @@ import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { Preview } from "../components/preview";
 import { UpdateProjectField } from "../components/updateProjectField";
-import { getPreview, getProjectFiles, uploadProject } from "../server/projects";
+import {
+  getProjectImg,
+  getProjectFiles,
+  uploadProject,
+} from "../server/projects";
 
 const AddProject = () => {
   const [name, setName] = useState<string | undefined>();
@@ -21,7 +25,7 @@ const AddProject = () => {
       <Header />
       Имя проекта вводить тут!
       <input value={name} onChange={(e) => setName(e.target.value)} />
-      <Preview getPreview={getPreview} name={name} trigger={trigger} />
+      <Preview getPreview={getProjectImg} name={name} trigger={trigger} />
       {name && (
         <>
           <FileUpload
