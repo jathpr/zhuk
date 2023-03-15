@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { navigate } from "gatsby";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Footer } from "../components/footer";
@@ -13,10 +14,23 @@ type Props = {
   onDel: () => void;
 };
 const Work = ({ isAuth, url, name, onDel }: Props) => {
-  if (!isAuth) return <Photo src={url} key={url} alt={name} />;
+  if (!isAuth)
+    return (
+      <Photo
+        src={url}
+        key={url}
+        alt={name}
+        onClick={() => navigate("/works/" + name)}
+      />
+    );
   return (
     <WorkAuth>
-      <Photo src={url} key={url} alt={name} />
+      <Photo
+        src={url}
+        key={url}
+        alt={name}
+        onClick={() => navigate("/works/" + name)}
+      />
       <RemoveButton
         onClick={async () => {
           const answer = window.confirm("Это Удаліт Фото навсегда!");
@@ -101,6 +115,7 @@ const RemoveButton = styled.button`
 `;
 
 const Photo = styled.img`
+  cursor: pointer;
   width: 100%;
   height: 100%;
   object-fit: cover;
