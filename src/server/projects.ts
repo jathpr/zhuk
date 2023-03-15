@@ -15,6 +15,7 @@ import {
   uploadBytes,
   listAll,
   getDownloadURL,
+  getMetadata,
 } from "firebase/storage";
 import { app } from "../firebase";
 
@@ -40,6 +41,15 @@ export const uploadProject = async ({ file, name }: PropsFile) => {
 export const getProjectImg = async (name: string) => {
   try {
     return await getDownloadURL(ref(storage, `${PATH}/${name}`));
+  } catch (error) {
+    return;
+  }
+};
+
+export const getProjectFileType = async (name: string) => {
+  try {
+    const meta = await getMetadata(ref(storage, `${PATH}/${name}`));
+    return meta.contentType;
   } catch (error) {
     return;
   }
@@ -77,10 +87,16 @@ export const getProjectFiles = async (name: string) => {
   const listRef = ref(storage, `${PATH}/${name}`);
   try {
     const res = await listAll(listRef);
-    const promisesVsNames = res.items.map((itemRef) => ({
-      promise: getDownloadURL(ref(storage, itemRef.fullPath)),
-      name: itemRef.name,
-    }));
+    const promisesVsNames = res.items.map((itemRef) => {
+      console.log(
+        "🚀 ~ file: projects.ts:81 ~ promisesVsNames ~ itemRef:",
+        itemRef
+      );
+      return {
+        promise: getDownloadURL(ref(storage, itemRef.fullPath)),
+        name: itemRef.name,
+      };
+    });
     // can be optimezed by parralel download of the works
     const urls = await Promise.all(
       promisesVsNames.map(({ promise }) => promise)

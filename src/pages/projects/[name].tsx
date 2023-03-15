@@ -6,6 +6,7 @@ import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
 import {
   getProjectFiles,
+  getProjectFileType,
   ProjectType,
   readProjectData,
 } from "../../server/projects";
@@ -41,14 +42,27 @@ type Props = {
   projectName: string;
 };
 
-const Work = ({ url, name, projectName }: Props) => (
-  <Photo
-    src={url}
-    key={url}
-    alt={name}
-    onClick={() => navigate(`/projects/${projectName}/${name}`)}
-  />
-);
+const Work = ({ url, name, projectName }: Props) => {
+  const [type, setType] = useState<string>();
+  useEffect(() => {
+    getProjectFileType(`${projectName}/${name}`).then(setType);
+  }, [name]);
+
+  return type?.includes("image") ? (
+    <Photo
+      src={url}
+      key={url}
+      alt={name}
+      onClick={() => navigate(`/projects/${projectName}/${name}`)}
+    />
+  ) : (
+    <Video
+      src={url}
+      key={url}
+      onClick={() => navigate(`/projects/${projectName}/${name}`)}
+    />
+  );
+};
 
 const Wrapper = styled.div``;
 
@@ -57,6 +71,13 @@ const ProjectsGrid = styled(WorksGrid)`
 `;
 
 const Photo = styled.img`
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const Video = styled.video`
   cursor: pointer;
   width: 100%;
   height: 100%;
