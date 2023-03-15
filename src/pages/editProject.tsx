@@ -34,8 +34,10 @@ const AddProject = () => {
             onUpload={() => setTrigger(new Date().getTime())}
             name={name}
           />
-          Описание проекта
+          Коротко о проекте (то что будет в списке проектов)
           <UpdateProjectField field="description" name={name} />
+          Длинно о проекте (то то будет на странице проекта)
+          <UpdateProjectField field="info" name={name} />
           <FileUpload
             addText="Добавить фото"
             uploadFile={({ file, name: n }) =>

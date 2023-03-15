@@ -1,23 +1,27 @@
-import * as React from "react";
-import { Link, navigate } from "gatsby";
-import { useEffect, useState } from "react";
-import { getWork } from "../../server/works";
 import styled from "@emotion/styled";
+import { navigate } from "gatsby";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { getProjectImg } from "../../../server/projects";
 
-const Image = ({ params: { name } }: { params: { name: string } }) => {
+const Image = ({
+  params: { name, project },
+}: {
+  params: { name: string; project: string };
+}) => {
   const [coverUrl, setCoverUrl] = useState<string>();
   useEffect(() => {
-    getWork(name).then(setCoverUrl);
+    getProjectImg(`${project}/${name}`).then(setCoverUrl);
     document.body.style.background = "black";
     return () => {
       document.body.style.background = "white";
     };
-  }, [name]);
+  }, [project, name]);
 
   return (
     <Wrapper
       onClick={() => {
-        navigate("/works");
+        navigate(`/projects/${project}`);
       }}
     >
       <main>

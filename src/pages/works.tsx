@@ -76,7 +76,7 @@ export const Works = () => {
   );
 };
 
-const WorksGrid = styled.div`
+export const WorksGrid = styled.div`
   display: grid;
   height: 74vh;
   overflow: scroll;

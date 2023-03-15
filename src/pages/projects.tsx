@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { navigate } from "gatsby";
 import React, { useEffect, useState } from "react";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
@@ -44,7 +45,12 @@ const Project = ({ projectName, project }: ProjectProps) => {
   }, [projectName]);
 
   return (
-    <ProjectWrapper key={projectName}>
+    <ProjectWrapper
+      key={projectName}
+      onClick={() => {
+        navigate("/projects/" + projectName);
+      }}
+    >
       <ProjectCover src={coverUrl} />
       <ProjectDescription>{project.description}</ProjectDescription>
     </ProjectWrapper>
@@ -52,6 +58,7 @@ const Project = ({ projectName, project }: ProjectProps) => {
 };
 
 const ProjectWrapper = styled.div`
+  cursor: pointer;
   width: 100%;
   height: 100%;
 `;

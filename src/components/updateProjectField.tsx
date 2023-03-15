@@ -23,5 +23,11 @@ export const UpdateProjectField = ({ name, field }: Props) => {
     readProjectData(name + "/" + field).then(setDescription);
   }, [name, field]);
 
-  return <input value={description} onChange={handleDescriptionChange} />;
+  return (
+    <input
+      value={description}
+      onChange={handleDescriptionChange}
+      style={{ width: "100%" }}
+    />
+  );
 };

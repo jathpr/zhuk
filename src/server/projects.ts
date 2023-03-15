@@ -1,7 +1,14 @@
 // getProjects = (setProjects) => { setProjects((prev) => [...prev, nextProject])}
 
 import { getAuth } from "firebase/auth";
-import { getDatabase, set, ref as dbRef, child, get } from "firebase/database";
+import {
+  getDatabase,
+  set,
+  ref as dbRef,
+  child,
+  get,
+  update,
+} from "firebase/database";
 import {
   ref,
   getStorage,
@@ -46,8 +53,7 @@ type Data = {
 export const sendProjectData = async ({ body, name }: Data) => {
   const sendBody: any = {};
   body.forEach(({ key, value }) => (sendBody[key] = value));
-  console.log("🚀 ~ file: projects.ts:52 ~ sendData ~ sendBody:", sendBody);
-  set(dbRef(db, `${PATH}/${name}`), sendBody);
+  update(dbRef(db, `${PATH}/${name}`), sendBody);
 };
 
 export const readProjectData = async (path?: string) => {
@@ -88,5 +94,5 @@ export const getProjectFiles = async (name: string) => {
   }
 };
 
-export type ProjectType = { description: string };
+export type ProjectType = { description: string; info: string };
 export type ProjectsType = { [name: string]: ProjectType };
