@@ -1,26 +1,25 @@
 import styled from "@emotion/styled";
 import { getAuth } from "firebase/auth";
-import { getDownloadURL, getStorage, ref } from "firebase/storage";
 import React from "react";
-import { useState } from "react";
 import { app } from "../firebase";
 import { Footer } from "../components/footer";
 import text from "../text.json";
+import { StaticImage } from "gatsby-plugin-image";
 
-const storage = getStorage();
+const LOGO_URL =
+  "https://firebasestorage.googleapis.com/v0/b/zhuk-photon.appspot.com/o/Ann?alt=media&token=bd12ab6a-15df-4ce5-94df-f239fbf253e1";
 
 export const Test = () => {
   const auth = getAuth(app);
-  const [img, setImg] = useState<string>();
-  getDownloadURL(ref(storage, "Ann"))
-    .then((url) => {
-      setImg(url);
-    })
-    .catch((error) => {});
   return (
     <Wrapper>
       <Name>{text.logo}</Name>
-      {img && <img src={img} width="500" alt="Anna looks on you" />}
+      <StaticImage
+        src={LOGO_URL}
+        width={500}
+        height={500}
+        alt="Anna looks on you"
+      />
       <Footer />
     </Wrapper>
   );
