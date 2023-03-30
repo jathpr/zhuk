@@ -28,4 +28,6 @@ export const Preview = ({
 const Image = styled.img<{ width?: string }>`
   float: left;
   width: ${({ width }) => width || "100px"};
+  margin-right: 2rem;
+  margin-bottom: 2rem;
 `;

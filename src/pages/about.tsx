@@ -46,13 +46,13 @@ export const About = () => {
           <UpdateAboutFields field="description" onChange={setDescription} />
         </>
       )}
+      <Title>{text.about.label}</Title>
       <Preview
         getPreview={getAboutCover}
         width="400px"
         name="Ana face"
         trigger={trigger}
       />
-      <Title>{text.about.label}</Title>
       <Name>{name}</Name>
       <ShortInfo>{shortInfo}</ShortInfo>
       <Description>{description}</Description>
@@ -62,36 +62,31 @@ export const About = () => {
 };
 
 const Description = styled.p`
-  font-size: 20px;
-  font-size: 30px;
-  text-align: center;
-  padding: 20px;
+  font-size: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const ShortInfo = styled.span`
-  font-size: 20px;
-  font-size: 30px;
+  font-size: 1rem;
   display: block;
-  text-align: center;
-  padding: 20px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const Name = styled.span`
-  font-size: 20px;
-  font-size: 30px;
+  font-size: 1rem;
   display: block;
   text-transform: uppercase;
-  text-align: center;
-  padding: 20px;
+  margin-bottom: 2rem;
 `;
 
 const Title = styled.span`
-  font-size: 20px;
-  font-size: 30px;
+  font-size: 1.2rem;
   display: block;
   text-transform: uppercase;
-  text-align: center;
-  padding: 20px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 export default About;

@@ -28,10 +28,7 @@ const Name = styled.span`
   margin-top: 2rem;
   line-height: 1.2;
   font-size: 4rem;
-
-  @media (min-width: 470px) {
-    font-size: 7rem;
-  }
+  color: #eeeeee;
 `;
 
 const ClearLink = styled(Link)`

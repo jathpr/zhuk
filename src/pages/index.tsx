@@ -5,6 +5,7 @@ import { app } from "../firebase";
 import { Footer } from "../components/footer";
 import text from "../text.json";
 import { StaticImage } from "gatsby-plugin-image";
+import "../gatsby.css";
 
 const LOGO_URL =
   "https://firebasestorage.googleapis.com/v0/b/zhuk-photon.appspot.com/o/Ann?alt=media&token=bd12ab6a-15df-4ce5-94df-f239fbf253e1";
@@ -12,16 +13,18 @@ const LOGO_URL =
 export const Test = () => {
   const auth = getAuth(app);
   return (
-    <Wrapper>
-      <Name>{text.logo}</Name>
-      <StaticImage
-        src={LOGO_URL}
-        width={500}
-        height={500}
-        alt="Anna looks on you"
-      />
+    <>
+      <Wrapper>
+        <Name>{text.logo}</Name>
+        <StaticImage
+          src={LOGO_URL}
+          width={500}
+          height={500}
+          alt="Anna looks on you"
+        />
+      </Wrapper>
       <Footer />
-    </Wrapper>
+    </>
   );
 };
 
