@@ -84,8 +84,8 @@ const ProjectsGrid = styled.div`
 `;
 
 const Title = styled.span`
-  font-size: 20px;
-  font-size: 30px;
+  font-size: 1.2rem;
+  letter-spacing: 8px;
   display: block;
   text-transform: uppercase;
   text-align: center;

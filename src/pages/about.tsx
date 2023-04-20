@@ -17,71 +17,73 @@ import text from "../text.json";
 export const About = () => {
   const isAuth = useIsAuth();
   const [trigger, setTrigger] = useState(new Date().getTime());
-  const [name, setName] = useState(text.logo);
-  const [shortInfo, setShortInfo] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const [subTitles, setSubTitles] = useState([]);
+  const [aboutParagraphs, setAboutParagraphs] = useState([]);
 
   useEffect(() => {
-    readAboutData("name").then(setName);
-    readAboutData("shortInfo").then(setShortInfo);
-    readAboutData("description").then(setDescription);
-  }, []);
+    readAboutData("title").then(setTitle);
+    readAboutData("subTitles").then(setSubTitles);
+    readAboutData("aboutParagraphs").then(setAboutParagraphs);
+  }, [trigger]);
+
+  const onUpdate = () => setTrigger(new Date().getTime());
 
   return (
     <>
       <Header />
-      {isAuth && (
-        <>
-          <FileUpload
-            addText="фото c моим лицом"
-            name="Ana face"
-            uploadFile={uploadAboutCover}
-            onUpload={() => setTrigger(new Date().getTime())}
-          />
-          Имя
-          <UpdateAboutFields field="name" onChange={setName} />
-          Технические моменты
-          <UpdateAboutFields field="shortInfo" onChange={setShortInfo} />
-          О себе
-          <UpdateAboutFields field="description" onChange={setDescription} />
-        </>
-      )}
-      <Title>{text.about.label}</Title>
+      {isAuth && <MenuForAuthUser onUpdate={onUpdate} />}
+      <Label>{text.about.label}</Label>
       <Preview
         getPreview={getAboutCover}
         width="400px"
-        name="Ana face"
+        name="Cover"
         trigger={trigger}
       />
-      <Name>{name}</Name>
-      <ShortInfo>{shortInfo}</ShortInfo>
-      <Description>{description}</Description>
+      <Title>{title}</Title>
+      {subTitles.map((subTitle, index) => (
+        <SubTitle key={index + subTitle}>{subTitle}</SubTitle>
+      ))}
+      {aboutParagraphs.map((aboutParagraph, index) => (
+        <Paragraph key={index + aboutParagraph}>{aboutParagraph}</Paragraph>
+      ))}
       <Footer />
     </>
   );
 };
 
-const Description = styled.p`
+const MenuForAuthUser = ({ onUpdate }: { onUpdate: () => void }) => (
+  <>
+    <FileUpload
+      addText="фото c моим лицом"
+      name="Cover"
+      uploadFile={uploadAboutCover}
+      onUpload={onUpdate}
+    />
+    Имя
+    <UpdateAboutFields field="title" onChange={onUpdate} />
+  </>
+);
+
+const Paragraph = styled.p`
   font-size: 1rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
 `;
 
-const ShortInfo = styled.span`
+const SubTitle = styled.span`
   font-size: 1rem;
   display: block;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
 `;
 
-const Name = styled.span`
+const Title = styled.span`
   font-size: 1rem;
   display: block;
   text-transform: uppercase;
   margin-bottom: 2rem;
 `;
 
-const Title = styled.span`
+const Label = styled.span`
   font-size: 1.2rem;
   display: block;
   text-transform: uppercase;
@@ -90,18 +92,3 @@ const Title = styled.span`
 `;
 
 export default About;
-
-//   useEffect(() => {
-//     const dbRef = ref(getDatabase(app));
-//     get(dbRef)
-//       .then((snapshot) => {
-//         if (snapshot.exists()) {
-//           setText(snapshot.val().about);
-//         } else {
-//           console.log("No data available");
-//         }
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   }, []);
