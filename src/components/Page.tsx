@@ -23,6 +23,8 @@ const Layout = styled.div`
   flex-direction: column;
   height: calc(100% - 4rem);
   padding: 2rem;
+  padding-left: 5%;
+  padding-right: 5%;
 `;
 
 const Main = styled.div`
