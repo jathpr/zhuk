@@ -1,7 +1,17 @@
+html {
+    height: 100%;
+}
+
+#___gatsby {
+    height: 100%;
+}
+
 #gatsby-focus-wrapper {
-    margin: 2rem;
+    height: 100%;
 }
 
 body {
     color: #202020;
+    margin: 0;
+    height: 100%;
   }

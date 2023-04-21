@@ -10,6 +10,7 @@ import {
   readProjectData,
 } from "../server/projects";
 import text from "../text.json";
+import { Page } from "../components/Page";
 
 export const Projects = () => {
   const [projects, setProjects] = useState<ProjectsType>({});
@@ -20,16 +21,14 @@ export const Projects = () => {
   const projectNames = Object.keys(projects);
 
   return (
-    <>
-      <Header path="/editProject" />
+    <Page authUrl="/editProject">
       <Title>{text.projects.label}</Title>
       <ProjectsGrid>
         {projectNames.map((projectName) => (
           <Project projectName={projectName} project={projects[projectName]} />
         ))}
       </ProjectsGrid>
-      <Footer />
-    </>
+    </Page>
   );
 };
 

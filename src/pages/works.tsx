@@ -6,6 +6,7 @@ import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { useIsAuth } from "../hooks/useIsAuth";
 import { deleteWork, getWorks } from "../server/works";
+import { Page } from "../components/Page";
 
 type Props = {
   isAuth: boolean;
@@ -59,8 +60,7 @@ export const Works = () => {
   }, []);
 
   return (
-    <>
-      <Header path="/img" />
+    <Page authUrl="/img">
       <WorksGrid>
         {works.map((work) => (
           <Work
@@ -71,8 +71,7 @@ export const Works = () => {
           />
         ))}
       </WorksGrid>
-      <Footer />
-    </>
+    </Page>
   );
 };
 
@@ -81,11 +80,11 @@ export const WorksGrid = styled.div`
   height: 74vh;
   overflow: scroll;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 36vh);
+  grid-template-rows: repeat(1, 36vh);
   grid-gap: 15px;
 
   @media (min-width: 600px) {
-    grid-template-rows: repeat(2, 30vw);
+    grid-template-rows: repeat(1, 30vw);
     grid-template-columns: repeat(3, 1fr);
   }
 `;

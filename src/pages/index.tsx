@@ -23,7 +23,7 @@ export const Test = () => {
           alt="Anna looks on you"
         />
       </Wrapper>
-      <Footer />
+      <Footer width="400px" />
     </>
   );
 };

@@ -13,6 +13,7 @@ import {
 import styled from "@emotion/styled";
 import { Preview } from "../components/preview";
 import text from "../text.json";
+import { Page } from "../components/Page";
 
 export const About = () => {
   const isAuth = useIsAuth();
@@ -30,8 +31,7 @@ export const About = () => {
   const onUpdate = () => setTrigger(new Date().getTime());
 
   return (
-    <>
-      <Header />
+    <Page>
       {isAuth && <MenuForAuthUser onUpdate={onUpdate} />}
       <Label>{text.about.label}</Label>
       <Preview
@@ -47,8 +47,7 @@ export const About = () => {
       {aboutParagraphs.map((aboutParagraph, index) => (
         <Paragraph key={index + aboutParagraph}>{aboutParagraph}</Paragraph>
       ))}
-      <Footer />
-    </>
+    </Page>
   );
 };
 

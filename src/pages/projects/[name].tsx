@@ -11,6 +11,7 @@ import {
   readProjectData,
 } from "../../server/projects";
 import { WorksGrid } from "../works";
+import { Page } from "../../components/Page";
 
 const Project = ({ params: { name } }: { params: { name: string } }) => {
   const [files, setFiles] = useState<{ url: string; name: string }[]>([]);
@@ -21,8 +22,7 @@ const Project = ({ params: { name } }: { params: { name: string } }) => {
   }, [name]);
 
   return (
-    <Wrapper>
-      <Header />
+    <Page>
       <main>
         <p>{project?.description}</p>
         <ProjectsGrid>
@@ -31,8 +31,7 @@ const Project = ({ params: { name } }: { params: { name: string } }) => {
           ))}
         </ProjectsGrid>
       </main>
-      <Footer />
-    </Wrapper>
+    </Page>
   );
 };
 
@@ -63,8 +62,6 @@ const Work = ({ url, name, projectName }: Props) => {
     />
   );
 };
-
-const Wrapper = styled.div``;
 
 const ProjectsGrid = styled(WorksGrid)`
   height: 64vh;
